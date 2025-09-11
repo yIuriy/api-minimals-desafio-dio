@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VWbJS0Dl+Z0=",
+  "dgSpecHash": "9ctWGFKZRYs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\lucik\\Programacao\\.NET\\api-minimals-desafio-dio\\minimal-api\\minimal-api.csproj",
+  "projectFilePath": "c:\\Users\\lucik\\Programacao\\.NET\\api-minimals-desafio-dio\\minimal-api\\minimal-api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lucik\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\lucik\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
