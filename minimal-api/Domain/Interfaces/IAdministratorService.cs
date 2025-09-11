@@ -10,5 +10,12 @@ namespace minimal_api.Infrastructure.Interfaces
     public interface IAdministratorService
     {
         Administrator? Login(LoginDTO loginDTO);
+
+        Administrator save(Administrator administrator);
+
+        List<Administrator> getAll(int? page = 1);
+
+        Administrator? findById(int id);
+
     }
 }

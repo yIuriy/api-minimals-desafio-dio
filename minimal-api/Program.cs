@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using minimal_api.Domain.DTOs;
 using minimal_api.Domain.Entitys;
+using minimal_api.Domain.Enuns;
 using minimal_api.Domain.ModelViews;
 using minimal_api.Domain.Services;
 using minimal_api.Infrastructure.Db;
@@ -44,6 +45,73 @@ app.MapPost("/admin/login", ([FromBody] LoginDTO loginDTO, IAdministratorService
         return Results.Unauthorized();
 }
 ).WithTags("Admin");
+
+app.MapGet("/admin", ([FromQuery] int? page, IAdministratorService administratorService) =>
+{
+    var admins = new List<AdministratorModelView>();
+    var adminsFormatted = administratorService.getAll(page);
+    foreach (var adm in adminsFormatted)
+    {
+        admins.Add(new AdministratorModelView
+        {
+            ID = adm.ID,
+            Email = adm.Email,
+            Profile = adm.Profile
+        });
+    }
+    return Results.Ok(admins);
+}
+).WithTags("Admin");
+
+
+app.MapGet("/admin/{id}", ([FromRoute] int id, IAdministratorService administratorService) =>
+{
+    var admin = administratorService.findById(id);
+
+    if (admin == null) return Results.NotFound();
+
+    return Results.Ok(admin);
+}).WithTags("Admin");
+
+app.MapPost("/admin", ([FromBody] AdministratorDTO administratorDTO, IAdministratorService administratorService) =>
+{
+    var errorMessages = new ValidationErrors
+    {
+        Messages = new List<string>()
+    };
+
+    if (string.IsNullOrEmpty(administratorDTO.Email))
+        errorMessages.Messages.Add("The Email cannot be empty.");
+
+    if (string.IsNullOrEmpty(administratorDTO.Password))
+        errorMessages.Messages.Add("The Password cannot be empty.");
+
+    if (administratorDTO.Profile == null)
+        errorMessages.Messages.Add("The Profile cannot be empty.");
+
+    if (errorMessages.Messages.Count() > 0)
+        return Results.BadRequest(errorMessages);
+
+
+    var admin = new Administrator
+    {
+        Email = administratorDTO.Email,
+        Password = administratorDTO.Password,
+        Profile = administratorDTO.Profile.ToString() ?? Profile.Editor.ToString()
+    };
+    administratorService.save(admin);
+    return Results.Created($"/admin/{admin.ID}", new AdministratorModelView
+    {
+        ID = admin.ID,
+        Email = admin.Email,
+        Profile = admin.Profile
+    });
+}
+
+).WithTags("Admin");
+
+
+
 #endregion
 
 #region Vehicle

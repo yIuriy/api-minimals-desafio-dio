@@ -49,7 +49,6 @@ namespace minimal_api.Domain.Services
                 query = query.Skip(((int)page - 1) * itensPerPage).Take(itensPerPage);
             }
 
-
             return query.ToList();
         }
 
