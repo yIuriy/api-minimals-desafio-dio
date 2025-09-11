@@ -1,3 +1,5 @@
+using minimal_api.Domain.DTOs;
+
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
@@ -11,14 +13,8 @@ app.MapPost("/login", (LoginDTO loginDTO) =>
         return Results.Ok("Login feito com sucesso.");
     }
     else
-        return Results.Ok("Login não autorizado .");
+        return Results.Unauthorized();
 }
 );
 
 app.Run();
-
-public class LoginDTO
-{
-    public string Email { get; set; } = default!;
-    public string Password { get; set; } = default!;
-}
