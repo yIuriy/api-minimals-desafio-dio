@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using minimal_api.Domain.DTOs;
+using minimal_api.Domain.Entitys;
 using minimal_api.Domain.ModelViews;
 using minimal_api.Domain.Services;
 using minimal_api.Infrastructure.Db;
@@ -19,11 +20,13 @@ builder.Services.AddDbContext<DbContextMySql>(
 );
 
 builder.Services.AddScoped<IAdministratorService, AdministratorService>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
 #endregion
 
 #region Home
@@ -39,6 +42,21 @@ app.MapPost("/admin/login", ([FromBody] LoginDTO loginDTO, IAdministratorService
     }
     else
         return Results.Unauthorized();
+}
+);
+#endregion
+
+#region Vehicle
+app.MapPost("/vehicles", ([FromBody] VehicleDTO vehicleDTO, IVehicleService vehicleService) =>
+{
+    var vehicle = new Vehicle
+    {
+        Name = vehicleDTO.Name,
+        Model = vehicleDTO.Model,
+        Year = vehicleDTO.Year
+    };
+    vehicleService.save(vehicle);
+    return Results.Created($"/vehicle/{vehicle.ID}", vehicle);
 }
 );
 #endregion
