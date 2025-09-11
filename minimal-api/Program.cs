@@ -17,6 +17,8 @@ builder.Services.AddDbContext<DbContextMySql>(
 
 builder.Services.AddScoped<IAdministratorService, AdministratorService>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -34,4 +36,6 @@ app.MapPost("/login", ([FromBody] LoginDTO loginDTO, IAdministratorService admin
 }
 );
 
+app.UseSwagger();
+app.UseSwaggerUI();
 app.Run();

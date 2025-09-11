@@ -126,3 +126,8 @@ C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\bin\Debug\n
 C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\obj\Debug\net9.0\minimal-api.csproj.AssemblyReference.cache
 C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\obj\Debug\net9.0\minimal-.F3613C90.Up2Date
+C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\bin\Debug\net9.0\Microsoft.OpenApi.dll
+C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\lucik\Programacao\.NET\api-minimals-desafio-dio\minimal-api\obj\Debug\net9.0\minimal-api.MvcApplicationPartsAssemblyInfo.cs
