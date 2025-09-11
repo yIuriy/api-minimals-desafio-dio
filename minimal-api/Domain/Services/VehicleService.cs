@@ -32,7 +32,7 @@ namespace minimal_api.Domain.Services
         }
 
 
-        public List<Vehicle>? getAll(int page = 1, string? name = null, string? model = null)
+        public List<Vehicle>? getAll(int? page = 1, string? name = null, string? model = null)
         {
             var query = _context.Vehicles.AsQueryable();
             if (!string.IsNullOrEmpty(name))
@@ -44,7 +44,11 @@ namespace minimal_api.Domain.Services
 
             int itensPerPage = 10;
 
-            query = query.Skip((page - 1) * itensPerPage).Take(itensPerPage);
+            if (page != null)
+            {
+                query = query.Skip(((int)page - 1) * itensPerPage).Take(itensPerPage);
+            }
+
 
             return query.ToList();
         }

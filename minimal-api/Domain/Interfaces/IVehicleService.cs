@@ -9,7 +9,7 @@ namespace minimal_api.Infrastructure.Interfaces
 {
     public interface IVehicleService
     {
-        List<Vehicle>? getAll(int page = 1, string? name = null, string? model = null);
+        List<Vehicle>? getAll(int? page = 1, string? name = null, string? model = null);
 
         Vehicle? findById(int id);
 
