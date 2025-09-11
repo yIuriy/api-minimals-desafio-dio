@@ -108,3 +108,7 @@ $RECYCLE.BIN/
 *.pid
 *.tar
 docker-compose.override.yml
+minimal-api/bin/Debug/net9.0/minimal-api.dll
+minimal-api/bin/Debug/net9.0/minimal-api.dll
+/minimal-api/bin
+/minimal-api/bin
