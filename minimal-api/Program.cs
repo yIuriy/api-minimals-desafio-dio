@@ -47,8 +47,34 @@ app.MapPost("/admin/login", ([FromBody] LoginDTO loginDTO, IAdministratorService
 #endregion
 
 #region Vehicle
+
+ValidationErrors validateDTO(VehicleDTO vehicleDTO)
+{
+    var errorMessages = new ValidationErrors
+    {
+        Messages = new List<string>()
+    };
+
+    if (string.IsNullOrEmpty(vehicleDTO.Name))
+        errorMessages.Messages.Add("The name cannot be null.");
+
+    if (string.IsNullOrEmpty(vehicleDTO.Model))
+        errorMessages.Messages.Add("The model cannot be null.");
+
+    if (vehicleDTO.Year < 1950)
+        errorMessages.Messages.Add("The vehicle is too old, it's accepted vehicles past 1950.");
+
+    return errorMessages;
+}
+
 app.MapPost("/vehicles", ([FromBody] VehicleDTO vehicleDTO, IVehicleService vehicleService) =>
 {
+    var errorMessages = validateDTO(vehicleDTO);
+
+    if (errorMessages.Messages.Count() > 0)
+        return Results.BadRequest(errorMessages);
+
+
     var vehicle = new Vehicle
     {
         Name = vehicleDTO.Name,
@@ -59,6 +85,7 @@ app.MapPost("/vehicles", ([FromBody] VehicleDTO vehicleDTO, IVehicleService vehi
     return Results.Created($"/vehicle/{vehicle.ID}", vehicle);
 }
 ).WithTags("Vehicle");
+
 app.MapGet("/vehicles", ([FromQuery] int? page, IVehicleService vehicleService) =>
 {
     var vehicle = vehicleService.getAll(page);
@@ -66,6 +93,7 @@ app.MapGet("/vehicles", ([FromQuery] int? page, IVehicleService vehicleService) 
     return Results.Ok(vehicle);
 }
 ).WithTags("Vehicle");
+
 app.MapGet("/vehicles/{id}", ([FromRoute] int id, IVehicleService vehicleService) =>
 {
     var vehicle = vehicleService.findById(id);
@@ -74,8 +102,14 @@ app.MapGet("/vehicles/{id}", ([FromRoute] int id, IVehicleService vehicleService
 
     return Results.Ok(vehicle);
 }).WithTags("Vehicle");
+
 app.MapPut("/vehicles/{id}", ([FromRoute] int id, VehicleDTO vehicleDTO, IVehicleService vehicleService) =>
 {
+    var errorMessages = validateDTO(vehicleDTO);
+
+    if (errorMessages.Messages.Count() > 0)
+        return Results.BadRequest(errorMessages);
+
     var vehicle = vehicleService.findById(id);
 
     if (vehicle == null) return Results.NotFound();
@@ -89,6 +123,7 @@ app.MapPut("/vehicles/{id}", ([FromRoute] int id, VehicleDTO vehicleDTO, IVehicl
     return Results.Ok(vehicle);
 
 }).WithTags("Vehicle");
+
 app.MapDelete("/vehicles/{id}", ([FromRoute] int id, IVehicleService vehicleService) =>
 {
     var vehicle = vehicleService.findById(id);
