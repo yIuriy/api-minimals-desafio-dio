@@ -4,28 +4,24 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace minimal_api.Domain.Entitys
 {
-    public class Administrator
+    public class Vehicle
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; } = default!;
 
         [Required]
-        [StringLength(255)]
-        public string Email { get; set; } = default!;
+        [StringLength(150)]
+        public string Name { get; set; } = default!;
 
         [Required]
-        [StringLength(50)]
-        public string Password { get; set; } = default!;
+        [StringLength(100)]
+        public string Model { get; set; } = default!;
 
         [Required]
-        [StringLength(105)]
-        public string Profile { get; set; } = default!;
-
+        public int Year { get; set; } = default!;
     }
 }
