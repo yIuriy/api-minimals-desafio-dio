@@ -6,6 +6,8 @@ using minimal_api.Domain.Services;
 using minimal_api.Infrastructure.Db;
 using minimal_api.Infrastructure.Interfaces;
 
+
+#region Builder
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<DbContextMySql>(
@@ -22,11 +24,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+#endregion
 
+#region Home
 app.MapGet("/", () => Results.Json(new Home()));
+#endregion 
 
-
-app.MapPost("/login", ([FromBody] LoginDTO loginDTO, IAdministratorService administratorService) =>
+#region Administrator
+app.MapPost("/admin/login", ([FromBody] LoginDTO loginDTO, IAdministratorService administratorService) =>
 {
     if (administratorService.Login(loginDTO) != null)
     {
@@ -36,7 +41,10 @@ app.MapPost("/login", ([FromBody] LoginDTO loginDTO, IAdministratorService admin
         return Results.Unauthorized();
 }
 );
+#endregion
 
+#region App
 app.UseSwagger();
 app.UseSwaggerUI();
 app.Run();
+#endregion
