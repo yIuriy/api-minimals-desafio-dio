@@ -1,8 +1,11 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography.Xml;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -107,7 +110,8 @@ string generateTokenJwt(Administrator administrator)
     var claims = new List<Claim>()
     {
         new Claim("Email", administrator.Email),
-        new Claim("Profile", administrator.Profile)
+        new Claim("Profile", administrator.Profile),
+        new Claim(ClaimTypes.Role, administrator.Profile)
     };
 
     var token = new JwtSecurityToken(
@@ -152,7 +156,7 @@ app.MapGet("/admin", ([FromQuery] int? page, IAdministratorService administrator
     }
     return Results.Ok(admins);
 }
-).RequireAuthorization().WithTags("Admin");
+).RequireAuthorization().RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Admin");
 
 
 app.MapGet("/admin/{id}", ([FromRoute] int id, IAdministratorService administratorService) =>
@@ -162,7 +166,7 @@ app.MapGet("/admin/{id}", ([FromRoute] int id, IAdministratorService administrat
     if (admin == null) return Results.NotFound();
 
     return Results.Ok(admin);
-}).RequireAuthorization().WithTags("Admin");
+}).RequireAuthorization().RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Admin");
 
 app.MapPost("/admin", ([FromBody] AdministratorDTO administratorDTO, IAdministratorService administratorService) =>
 {
@@ -199,7 +203,7 @@ app.MapPost("/admin", ([FromBody] AdministratorDTO administratorDTO, IAdministra
     });
 }
 
-).RequireAuthorization().WithTags("Admin");
+).RequireAuthorization().RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" }).WithTags("Admin");
 #endregion
 
 #region Vehicle
@@ -240,7 +244,9 @@ app.MapPost("/vehicles", ([FromBody] VehicleDTO vehicleDTO, IVehicleService vehi
     vehicleService.save(vehicle);
     return Results.Created($"/vehicle/{vehicle.ID}", vehicle);
 }
-).RequireAuthorization().WithTags("Vehicle");
+).RequireAuthorization()
+.RequireAuthorization(new AuthorizeAttribute { Roles = "Adm, Editor" })
+.WithTags("Vehicle");
 
 app.MapGet("/vehicles", ([FromQuery] int? page, IVehicleService vehicleService) =>
 {
@@ -248,7 +254,9 @@ app.MapGet("/vehicles", ([FromQuery] int? page, IVehicleService vehicleService) 
 
     return Results.Ok(vehicle);
 }
-).RequireAuthorization().WithTags("Vehicle");
+).RequireAuthorization()
+.RequireAuthorization(new AuthorizeAttribute { Roles = "Adm, Editor" })
+.WithTags("Vehicle");
 
 app.MapGet("/vehicles/{id}", ([FromRoute] int id, IVehicleService vehicleService) =>
 {
@@ -278,7 +286,9 @@ app.MapPut("/vehicles/{id}", ([FromRoute] int id, VehicleDTO vehicleDTO, IVehicl
 
     return Results.Ok(vehicle);
 
-}).RequireAuthorization().WithTags("Vehicle");
+}).RequireAuthorization()
+.RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" })
+.WithTags("Vehicle");
 
 app.MapDelete("/vehicles/{id}", ([FromRoute] int id, IVehicleService vehicleService) =>
 {
@@ -289,11 +299,13 @@ app.MapDelete("/vehicles/{id}", ([FromRoute] int id, IVehicleService vehicleServ
     vehicleService.delete(vehicle);
 
     return Results.NoContent();
-}).RequireAuthorization().WithTags("Vehicle");
+}).RequireAuthorization()
+.RequireAuthorization(new AuthorizeAttribute { Roles = "Adm" })
+.WithTags("Vehicle");
+
+
 #endregion
 
 #region App
-
-
 app.Run();
 #endregion
