@@ -1,0 +1,115 @@
+# =====================================
+#   .gitignore para servidor em C#/.NET
+# =====================================
+
+### DotnetCore ###
+# Build folders
+bin/
+obj/
+out/
+artifacts/
+publish/
+
+# Common node modules (caso use frontend integrado)
+node_modules/
+wwwroot/node_modules/
+
+# Logs e traces
+*.log
+logs/
+
+# Test results
+TestResult.xml
+*.trx
+*.coverage
+*.coveragexml
+coverage/
+
+# NuGet packages
+*.nupkg
+.nuget/
+
+# Project lock (antigo)
+project.lock.json
+
+### Configurações sensíveis ###
+# User secrets
+secrets.json
+
+# Configurações locais de ambiente
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+
+# Certificados locais
+*.pfx
+*.p12
+*.cer
+*.key
+
+### Linux ###
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+*.icloud
+
+### Windows ###
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+.history/
+.ionide
+*.vsix
+
+### JetBrains Rider ###
+.idea/
+*.sln.iml
+
+### Docker ###
+*.pid
+*.tar
+docker-compose.override.yml
+minimal-api/bin/Debug/net9.0/minimal-api.dll
+minimal-api/bin/Debug/net9.0/minimal-api.dll
+/minimal-api/bin
+/minimal-api/bin
+minimal-api/obj/Debug/net9.0/refint/minimal-api.dll
