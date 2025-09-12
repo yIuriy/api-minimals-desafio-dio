@@ -7,6 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using minimal_api;
 using minimal_api.Infrastructure.Db;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using minimal_api.Domain.Entitys;
+using minimal_api.Infrastructure.Interfaces;
+using test.Mocks;
 
 namespace test.Helpers
 {
@@ -17,12 +22,26 @@ namespace test.Helpers
         public static WebApplicationFactory<Program> http = default!;
         public static HttpClient client = default!;
 
-        
+        public static void ClassInit(TestContext testContext)
+        {
+            Setup.testContext = testContext;
+            http = new WebApplicationFactory<Program>();
 
-        
+            http = http.WithWebHostBuilder(builder =>
+            {
+                builder.UseSetting("https_port", Setup.PORT).UseEnvironment("Testing");
 
+                builder.ConfigureServices(services =>
+                {
+                    services.AddScoped<IAdministratorService, AdministratorServiceMock>();
+                });
+            });
 
-
-
+            client = http.CreateClient();
+        }
+        public static void ClassCleanup()
+        {
+            http.Dispose();
+        }
     }
 }

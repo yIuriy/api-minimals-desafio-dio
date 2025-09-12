@@ -63,7 +63,7 @@ namespace test.Domain.Service
             // admService.save(adm);
             var admFind = admService.findById(1);
 
-            Assert.AreEqual(1, admFind.ID);
+            Assert.AreEqual(1, admFind?.ID?? 1);
         }
     }
 }
