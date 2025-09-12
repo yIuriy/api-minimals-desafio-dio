@@ -1,10 +1,15 @@
 using minimal_api;
 
-IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
-        .ConfigureWebHostDefaults(webBuilder =>
-        {
-            webBuilder.UseStartup<Startup>();
-        });
+var builder = WebApplication.CreateBuilder(args);
 
-CreateHostBuilder(args).Build().Run();
+var startup = new Startup(builder.Configuration);
+startup.ConfigureServices(builder.Services);
+
+var app = builder.Build();
+
+startup.Configure(app, app.Environment);
+
+app.Run();
+
+// Para testes com WebApplicationFactory
+public partial class Program { }
