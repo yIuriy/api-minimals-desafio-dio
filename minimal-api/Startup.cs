@@ -274,7 +274,9 @@ namespace minimal_api
                     if (vehicle == null) return Results.NotFound();
 
                     return Results.Ok(vehicle);
-                }).RequireAuthorization().WithTags("Vehicle");
+                }).RequireAuthorization()
+                .RequireAuthorization(new AuthorizeAttribute { Roles = "Adm, Editor" })
+                .WithTags("Vehicle");
 
                 endpoints.MapPut("/vehicles/{id}", ([FromRoute] int id, VehicleDTO vehicleDTO, IVehicleService vehicleService) =>
                 {

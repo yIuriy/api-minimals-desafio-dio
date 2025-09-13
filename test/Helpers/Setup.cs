@@ -15,7 +15,7 @@ using test.Mocks;
 
 namespace test.Helpers
 {
-    public class Setup
+    public class Setup 
     {
         public const string PORT = "5001";
         public static TestContext testContext = default!;
